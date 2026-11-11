@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PetCare+</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topo">
+    <h1>🐾 PetCare+</h1>
+    <p>Histórico inteligente dos seus animais</p>
+</header>
+
+<main class="container">
+    <section class="painel">
+        <h2>Novo animal</h2>
+        <form id="form-animal">
+            <label for="nome">Nome</label>
+            <input id="nome" required maxlength="100">
+
+            <label for="especie">Espécie</label>
+            <input id="especie" required maxlength="80" placeholder="Cachorro, Gato...">
+
+            <label for="raca">Raça</label>
+            <input id="raca" maxlength="100">
+
+            <label for="nascimento">Nascimento estimado</label>
+            <input id="nascimento" type="date">
+
+            <label for="sexo">Sexo</label>
+            <select id="sexo">
+                <option value="">Não informado</option>
+                <option value="Macho">Macho</option>
+                <option value="Fêmea">Fêmea</option>
+            </select>
+
+            <label for="observacoes">Observações</label>
+            <textarea id="observacoes" rows="3" maxlength="2000"></textarea>
+
+            <button type="submit">Cadastrar</button>
+            <p id="mensagem" role="status"></p>
+        </form>
+    </section>
+
+    <section>
+        <h2>Meus animais</h2>
+        <div id="lista" class="grade"></div>
+    </section>
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>

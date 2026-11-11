@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PetCare+ | Animal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topo">
+    <h1>🐾 PetCare+</h1>
+    <p id="resumo-animal">Carregando...</p>
+</header>
+
+<main class="container">
+    <div class="nao-imprimir">
+        <a class="voltar" href="index.html">← Voltar para meus animais</a>
+
+        <section class="painel">
+            <h2>Nova consulta</h2>
+            <form id="form-consulta">
+                <label for="c-profissional">Profissional</label>
+                <input id="c-profissional" maxlength="150">
+
+                <label for="c-clinica">Clínica</label>
+                <input id="c-clinica" maxlength="150">
+
+                <label for="c-data">Data e hora</label>
+                <input id="c-data" type="datetime-local" required>
+
+                <label for="c-motivo">Motivo</label>
+                <textarea id="c-motivo" rows="2" maxlength="2000"></textarea>
+
+                <button type="submit">Registrar consulta</button>
+                <p id="msg-consulta" role="status"></p>
+            </form>
+        </section>
+
+        <section class="painel">
+            <h2>Nova vacina</h2>
+            <form id="form-vacina">
+                <label for="v-nome">Nome da vacina</label>
+                <input id="v-nome" required maxlength="100">
+
+                <label for="v-aplicacao">Data de aplicação</label>
+                <input id="v-aplicacao" type="date" required>
+
+                <label for="v-proxima">Próxima data (reforço)</label>
+                <input id="v-proxima" type="date">
+
+                <label for="v-obs">Observações</label>
+                <textarea id="v-obs" rows="2" maxlength="2000"></textarea>
+
+                <button type="submit">Registrar vacina</button>
+                <p id="msg-vacina" role="status"></p>
+            </form>
+        </section>
+    </div>
+
+    <section>
+        <h2>Histórico</h2>
+
+        <div id="ficha" class="so-impressao"></div>
+
+        <div class="nao-imprimir">
+            <label for="filtro">Filtrar por tipo</label>
+            <select id="filtro">
+                <option value="">Todos</option>
+                <option value="CONSULTA">Consultas</option>
+                <option value="VACINA">Vacinas</option>
+            </select>
+
+            <button type="button" id="btn-pdf">📄 Exportar PDF</button>
+        </div>
+
+        <ol id="timeline" class="timeline"></ol>
+    </section>
+</main>
+
+<script src="js/animal.js"></script>
+</body>
+</html>
