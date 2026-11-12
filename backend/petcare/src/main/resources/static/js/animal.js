@@ -167,5 +167,25 @@ document.getElementById("form-vacina").addEventListener("submit", (ev) => {
 filtro.addEventListener("change", carregarHistorico);
 document.getElementById("btn-pdf").addEventListener("click", () => window.print());
 
+// Botão de excluir animal
+document.getElementById("btn-excluir").addEventListener("click", async () => {
+    const nomeAnimal = resumo.textContent.split("·")[0].trim();
+    const confirmado = confirm(`Tem certeza que deseja excluir o cadastro de ${nomeAnimal}? Todo o histórico de consultas e vacinas será apagado.`);
+
+    if (!confirmado) return;
+
+    try {
+        const resp = await fetch(`${API}/animals/${animalId}`, {
+            method: "DELETE"
+        });
+
+        if (!resp.ok) throw new Error();
+
+        location.href = "index.html";
+    } catch (erro) {
+        alert("Erro ao excluir o animal. Tente novamente.");
+    }
+});
+
 carregarAnimal();
 carregarHistorico();

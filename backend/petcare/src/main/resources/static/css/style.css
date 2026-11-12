@@ -203,3 +203,11 @@ button:hover { filter: brightness(1.1); }
 @media print {
     .usuario-logado { display: none; }
 }
+/* Botão de exclusão (perigoso) */
+.btn-perigo {
+    background: #b00020;
+    margin-top: 0.5rem;
+}
+.btn-perigo:hover {
+    background: #8a0018;
+}

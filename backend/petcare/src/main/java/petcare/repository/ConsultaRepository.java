@@ -6,4 +6,5 @@ import petcare.model.Consulta;
 
 public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     List<Consulta> findByAnimalId(Long animalId);
+    void deleteByAnimalId(Long animalId);
 }

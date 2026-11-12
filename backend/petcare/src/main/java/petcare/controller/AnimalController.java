@@ -12,7 +12,9 @@ import petcare.dto.AnimalResponse;
 import petcare.model.Animal;
 import petcare.model.Usuario;
 import petcare.repository.AnimalRepository;
+import petcare.repository.ConsultaRepository;
 import petcare.repository.UsuarioRepository;
+import petcare.repository.VacinaRepository;
 
 @RestController
 @RequestMapping("/api/animals")
@@ -20,10 +22,15 @@ public class AnimalController {
 
     private final AnimalRepository animais;
     private final UsuarioRepository usuarios;
+    private final ConsultaRepository consultas;
+    private final VacinaRepository vacinas;
 
-    public AnimalController(AnimalRepository animais, UsuarioRepository usuarios) {
+    public AnimalController(AnimalRepository animais, UsuarioRepository usuarios,
+                            ConsultaRepository consultas, VacinaRepository vacinas) {
         this.animais = animais;
         this.usuarios = usuarios;
+        this.consultas = consultas;
+        this.vacinas = vacinas;
     }
 
     @PostMapping
@@ -39,7 +46,6 @@ public class AnimalController {
         return AnimalResponse.from(animais.save(animal));
     }
 
-    // Lista só os animais do usuário logado
     @GetMapping
     public List<AnimalResponse> listar(@AuthenticationPrincipal Jwt jwt) {
         return animais.findByUsuarioId(usuarioId(jwt)).stream()
@@ -63,16 +69,19 @@ public class AnimalController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
-        animais.delete(buscarDoUsuario(id, jwt));
+        Animal animal = buscarDoUsuario(id, jwt);
+
+        // Apaga o histórico vinculado antes de excluir o animal para evitar erro no banco
+        consultas.deleteByAnimalId(id);
+        vacinas.deleteByAnimalId(id);
+
+        animais.delete(animal);
     }
 
-    // O id do usuário vem do token (campo "subject"), nunca do corpo da requisição
     private Long usuarioId(Jwt jwt) {
         return Long.valueOf(jwt.getSubject());
     }
 
-    // Regra de autorização: o animal precisa pertencer ao usuário logado.
-    // Se não pertencer, responde 404, igual a "não existe".
     private Animal buscarDoUsuario(Long id, Jwt jwt) {
         Animal animal = animais.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Animal não encontrado"));

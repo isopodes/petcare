@@ -6,4 +6,5 @@ import petcare.model.Vacina;
 
 public interface VacinaRepository extends JpaRepository<Vacina, Long> {
     List<Vacina> findByAnimalId(Long animalId);
+    void deleteByAnimalId(Long animalId);
 }
