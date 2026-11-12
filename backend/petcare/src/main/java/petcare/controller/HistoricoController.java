@@ -1,11 +1,12 @@
 package petcare.controller;
 
 import jakarta.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import petcare.dto.*;
@@ -36,10 +37,11 @@ public class HistoricoController {
 
     @PostMapping("/appointments")
     @ResponseStatus(HttpStatus.CREATED)
-    public ConsultaResponse criarConsulta(@PathVariable Long animalId,
+    public ConsultaResponse criarConsulta(@AuthenticationPrincipal Jwt jwt,
+                                          @PathVariable Long animalId,
                                           @Valid @RequestBody ConsultaRequest req) {
         Consulta c = new Consulta();
-        c.setAnimal(buscarAnimal(animalId));
+        c.setAnimal(animalDoUsuario(animalId, jwt));
         c.setProfissional(req.profissional());
         c.setClinica(req.clinica());
         c.setDataHora(req.dataHora());
@@ -49,8 +51,9 @@ public class HistoricoController {
     }
 
     @GetMapping("/appointments")
-    public List<ConsultaResponse> listarConsultas(@PathVariable Long animalId) {
-        buscarAnimal(animalId);
+    public List<ConsultaResponse> listarConsultas(@AuthenticationPrincipal Jwt jwt,
+                                                  @PathVariable Long animalId) {
+        animalDoUsuario(animalId, jwt);
         return consultas.findByAnimalId(animalId).stream()
                 .map(ConsultaResponse::from).toList();
     }
@@ -59,14 +62,16 @@ public class HistoricoController {
 
     @PostMapping("/vaccines")
     @ResponseStatus(HttpStatus.CREATED)
-    public VacinaResponse criarVacina(@PathVariable Long animalId,
+    public VacinaResponse criarVacina(@AuthenticationPrincipal Jwt jwt,
+                                      @PathVariable Long animalId,
                                       @Valid @RequestBody VacinaRequest req) {
+        Animal animal = animalDoUsuario(animalId, jwt);
         if (req.proximaData() != null && !req.proximaData().isAfter(req.dataAplicacao())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "A próxima data deve ser posterior à data de aplicação");
         }
         Vacina v = new Vacina();
-        v.setAnimal(buscarAnimal(animalId));
+        v.setAnimal(animal);
         v.setNome(req.nome());
         v.setDataAplicacao(req.dataAplicacao());
         v.setProximaData(req.proximaData());
@@ -75,8 +80,9 @@ public class HistoricoController {
     }
 
     @GetMapping("/vaccines")
-    public List<VacinaResponse> listarVacinas(@PathVariable Long animalId) {
-        buscarAnimal(animalId);
+    public List<VacinaResponse> listarVacinas(@AuthenticationPrincipal Jwt jwt,
+                                              @PathVariable Long animalId) {
+        animalDoUsuario(animalId, jwt);
         return vacinas.findByAnimalId(animalId).stream()
                 .map(VacinaResponse::from).toList();
     }
@@ -84,9 +90,10 @@ public class HistoricoController {
     // ---------- Timeline ----------
 
     @GetMapping("/history")
-    public List<EventoHistorico> historico(@PathVariable Long animalId,
+    public List<EventoHistorico> historico(@AuthenticationPrincipal Jwt jwt,
+                                           @PathVariable Long animalId,
                                            @RequestParam(required = false) String tipo) {
-        buscarAnimal(animalId);
+        animalDoUsuario(animalId, jwt);
         List<EventoHistorico> eventos = new ArrayList<>();
 
         for (Consulta c : consultas.findByAnimalId(animalId)) {
@@ -104,8 +111,14 @@ public class HistoricoController {
                 .toList();
     }
 
-    private Animal buscarAnimal(Long id) {
-        return animais.findById(id).orElseThrow(() -> new ResponseStatusException(
+    // Regra de autorização: o animal precisa pertencer ao usuário logado
+    private Animal animalDoUsuario(Long id, Jwt jwt) {
+        Animal animal = animais.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Animal não encontrado"));
+        Long usuarioId = Long.valueOf(jwt.getSubject());
+        if (!animal.getUsuario().getId().equals(usuarioId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
+        }
+        return animal;
     }
 }

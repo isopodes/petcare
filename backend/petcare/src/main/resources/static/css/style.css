@@ -185,3 +185,21 @@ button:hover { filter: brightness(1.1); }
         border: 1px solid #000;
     }
 }
+/* ---------- Login ---------- */
+.container-login { max-width: 800px; }
+
+@media (min-width: 768px) {
+    .container-login { grid-template-columns: 1fr 1fr; }
+}
+
+.topo .btn-sair {
+    width: auto;
+    margin: 0 0 0 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: transparent;
+    border: 1px solid #fff;
+}
+
+@media print {
+    .usuario-logado { display: none; }
+}

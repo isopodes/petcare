@@ -1,14 +1,13 @@
 const API = "/api";
-const USUARIO_ID = 1; // por enquanto, sem login: usamos o usuário Maria
 
 const lista = document.getElementById("lista");
 const form = document.getElementById("form-animal");
 const mensagem = document.getElementById("mensagem");
 
-// Busca os animais na API e manda desenhar na tela
+// Busca os animais do usuário logado e manda desenhar na tela
 async function carregarAnimais() {
     try {
-        const resp = await fetch(`${API}/animals?usuarioId=${USUARIO_ID}`);
+        const resp = await fetch(`${API}/animals`);
         if (!resp.ok) throw new Error("Falha ao carregar");
         mostrarAnimais(await resp.json());
     } catch (erro) {
@@ -52,10 +51,9 @@ function avisar(texto, tipo) {
 
 // Quando o formulário é enviado, manda os dados para a API
 form.addEventListener("submit", async (evento) => {
-    evento.preventDefault(); // impede a página de recarregar
+    evento.preventDefault();
 
     const dados = {
-        usuarioId: USUARIO_ID,
         nome: valor("nome"),
         especie: valor("especie"),
         raca: valor("raca") || null,
@@ -73,10 +71,6 @@ form.addEventListener("submit", async (evento) => {
 
         if (resp.status === 400) {
             avisar("Confira os campos (a data de nascimento não pode ser futura).", "erro");
-            return;
-        }
-        if (resp.status === 404) {
-            avisar("Usuário não encontrado. Confira o USUARIO_ID no app.js.", "erro");
             return;
         }
         if (!resp.ok) throw new Error("Erro no servidor");

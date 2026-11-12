@@ -3,6 +3,8 @@ package petcare.controller;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import petcare.dto.AnimalRequest;
@@ -26,46 +28,58 @@ public class AnimalController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AnimalResponse criar(@Valid @RequestBody AnimalRequest req) {
-        Usuario dono = usuarios.findById(req.usuarioId())
+    public AnimalResponse criar(@AuthenticationPrincipal Jwt jwt,
+                                @Valid @RequestBody AnimalRequest req) {
+        Usuario dono = usuarios.findById(usuarioId(jwt))
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+                        HttpStatus.UNAUTHORIZED, "Usuário inválido"));
         Animal animal = new Animal();
         animal.setUsuario(dono);
         preencher(animal, req);
         return AnimalResponse.from(animais.save(animal));
     }
 
+    // Lista só os animais do usuário logado
     @GetMapping
-    public List<AnimalResponse> listar(@RequestParam(required = false) Long usuarioId) {
-        List<Animal> lista = (usuarioId == null)
-                ? animais.findAll()
-                : animais.findByUsuarioId(usuarioId);
-        return lista.stream().map(AnimalResponse::from).toList();
+    public List<AnimalResponse> listar(@AuthenticationPrincipal Jwt jwt) {
+        return animais.findByUsuarioId(usuarioId(jwt)).stream()
+                .map(AnimalResponse::from).toList();
     }
 
     @GetMapping("/{id}")
-    public AnimalResponse buscar(@PathVariable Long id) {
-        return AnimalResponse.from(buscarOu404(id));
+    public AnimalResponse buscar(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
+        return AnimalResponse.from(buscarDoUsuario(id, jwt));
     }
 
     @PutMapping("/{id}")
-    public AnimalResponse atualizar(@PathVariable Long id,
+    public AnimalResponse atualizar(@AuthenticationPrincipal Jwt jwt,
+                                    @PathVariable Long id,
                                     @Valid @RequestBody AnimalRequest req) {
-        Animal animal = buscarOu404(id);
+        Animal animal = buscarDoUsuario(id, jwt);
         preencher(animal, req);
         return AnimalResponse.from(animais.save(animal));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluir(@PathVariable Long id) {
-        animais.delete(buscarOu404(id));
+    public void excluir(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
+        animais.delete(buscarDoUsuario(id, jwt));
     }
 
-    private Animal buscarOu404(Long id) {
-        return animais.findById(id).orElseThrow(() -> new ResponseStatusException(
+    // O id do usuário vem do token (campo "subject"), nunca do corpo da requisição
+    private Long usuarioId(Jwt jwt) {
+        return Long.valueOf(jwt.getSubject());
+    }
+
+    // Regra de autorização: o animal precisa pertencer ao usuário logado.
+    // Se não pertencer, responde 404, igual a "não existe".
+    private Animal buscarDoUsuario(Long id, Jwt jwt) {
+        Animal animal = animais.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Animal não encontrado"));
+        if (!animal.getUsuario().getId().equals(usuarioId(jwt))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal não encontrado");
+        }
+        return animal;
     }
 
     private void preencher(Animal a, AnimalRequest r) {
