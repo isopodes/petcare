@@ -13,7 +13,7 @@ async function carregarAnimal() {
         const a = await resp.json();
 
         resumo.textContent = [a.nome, a.especie, a.raca].filter(Boolean).join(" · ");
-        document.title = `Historico - ${a.nome}`;
+        document.title = `Histórico - ${a.nome}`;
         montarFicha(a);
     } catch (erro) {
         resumo.textContent = "Animal não encontrado";
@@ -130,7 +130,7 @@ async function enviar(url, dados, form, elementoMsg) {
         if (!resp.ok) throw new Error();
 
         form.reset();
-        avisar(elementoMsg, "Registrado!", "ok");
+        avisar(elementoMsg, "Informação salva com sucesso!", "ok");
         carregarHistorico();
     } catch (erro) {
         avisar(elementoMsg, "Erro ao registrar. Tente novamente.", "erro");

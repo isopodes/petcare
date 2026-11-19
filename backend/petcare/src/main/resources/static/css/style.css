@@ -1,213 +1,1099 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap');
+
 :root {
-    --cor-principal: #2f7d6d;
-    --cor-fundo: #f4f7f6;
-    --cor-texto: #1f2d2a;
-    --cor-borda: #d5e0dd;
+    /* Paleta Cromática Oficial */
+    --forest-green: #244B3C;
+    --sage-green: #6F9B83;
+    --soft-mint: #BBD3BC;
+    --warm-cream: #F3F1E8;
+    --soft-clay: #D9B9A7;
+
+    /* Cores Complementares */
+    --deep-moss: #344D3D;
+    --pale-sage: #E5EEE4;
+    --pure-white: #FFFFFF;
+    --muted-gray: #858B83;
+    --soft-yellow: #E8DDAA;
+
+    /* Apoio / Alertas */
+    --danger: #B83A2D;
+    --danger-soft: #FBEAE8;
+
+    /* Raios e Sombras Orgânicas */
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --shadow-soft: 0 6px 20px rgba(36, 75, 60, 0.06);
+    --shadow-card: 0 12px 28px rgba(36, 75, 60, 0.09);
 }
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
-    font-family: system-ui, Arial, sans-serif;
-    background: var(--cor-fundo);
-    color: var(--cor-texto);
-    line-height: 1.5;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--warm-cream);
+    color: var(--deep-moss);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
+h1, h2, h3, .marca-nome {
+    font-family: 'Manrope', system-ui, sans-serif;
+    color: var(--forest-green);
+}
+
+/* ---------- Cabeçalho / Navbar ---------- */
 .topo {
-    background: var(--cor-principal);
-    color: #fff;
-    padding: 1rem;
-    text-align: center;
+    background-color: var(--pure-white);
+    border-bottom: 1px solid var(--soft-mint);
+    padding: 0.95rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 20;
 }
-.topo h1 { margin: 0; font-size: 1.6rem; }
-.topo p { margin: 0.25rem 0 0; opacity: 0.9; }
 
-/* Celular: tudo em uma coluna */
+.topo-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--forest-green);
+}
+
+.marca-logo-img {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.marca-divisor {
+    width: 1px;
+    height: 28px;
+    background-color: var(--soft-mint);
+}
+
+.marca-subtitulo,
+#resumo-animal {
+    margin: 0;
+    font-size: 0.84rem;
+    color: var(--muted-gray);
+    font-weight: 500;
+}
+
+.usuario-logado {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--deep-moss);
+}
+
+#nome-usuario {
+    background-color: var(--pale-sage);
+    color: var(--forest-green);
+    padding: 0.38rem 0.85rem;
+    border-radius: 999px;
+}
+
+#btn-sair {
+    width: auto;
+    margin: 0;
+    padding: 0.42rem 0.95rem;
+    background-color: transparent;
+    color: var(--muted-gray);
+    border: 1px solid var(--soft-mint);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+#btn-sair:hover {
+    background-color: var(--danger-soft);
+    color: var(--danger);
+    border-color: #E7B5AF;
+    box-shadow: none;
+}
+
+/* ---------- Layout Principal ---------- */
 .container {
     display: grid;
-    gap: 1.5rem;
-    padding: 1rem;
-    max-width: 1100px;
+    gap: 1.75rem;
+    padding: 1.75rem 1.25rem 3.5rem;
+    max-width: 1160px;
     margin: 0 auto;
 }
 
 .painel {
-    background: #fff;
-    border: 1px solid var(--cor-borda);
-    border-radius: 12px;
-    padding: 1rem;
+    background-color: var(--pure-white);
+    border: 1px solid var(--soft-mint);
+    border-radius: var(--radius-lg);
+    padding: 1.65rem;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 1.25rem;
 }
 
-h2 { margin-top: 0; }
+.painel-suave {
+    background-color: var(--pale-sage);
+}
 
-label { display: block; margin-top: 0.75rem; font-weight: 600; }
+h2 {
+    margin: 0 0 0.35rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+}
+
+.descricao-secao {
+    margin: 0 0 1.15rem;
+    font-size: 0.88rem;
+    color: var(--muted-gray);
+}
+
+/* ---------- Formulários e Inputs ---------- */
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+}
+
+@media (min-width: 480px) {
+    .form-grid-2 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+label {
+    display: block;
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--deep-moss);
+}
+
+.form-grid-2 label {
+    margin-top: 0.25rem;
+}
 
 input, select, textarea {
     width: 100%;
-    padding: 0.6rem;
-    margin-top: 0.25rem;
-    border: 1px solid var(--cor-borda);
-    border-radius: 8px;
-    font: inherit;
+    padding: 0.7rem 0.9rem;
+    margin-top: 0.35rem;
+    background-color: var(--pure-white);
+    border: 1px solid #C9DEC9;
+    border-radius: var(--radius-sm);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.92rem;
+    color: var(--deep-moss);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-input:focus, select:focus, textarea:focus, button:focus {
-    outline: 3px solid #f2b705;
-    outline-offset: 1px;
+input::placeholder,
+textarea::placeholder {
+    color: var(--muted-gray);
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--forest-green);
+    box-shadow: 0 0 0 3px rgba(111, 155, 131, 0.25);
 }
 
 button {
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     width: 100%;
-    padding: 0.75rem;
-    background: var(--cor-principal);
-    color: #fff;
+    padding: 0.78rem 1.3rem;
+    background-color: var(--forest-green);
+    color: var(--pure-white);
     border: 0;
-    border-radius: 8px;
-    font: inherit;
-    font-weight: 600;
+    border-radius: var(--radius-md);
+    font-family: 'Manrope', system-ui, sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    transition: background-color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease;
 }
-button:hover { filter: brightness(1.1); }
 
-#mensagem { min-height: 1.5rem; font-weight: 600; }
-#mensagem.erro { color: #b00020; }
-#mensagem.ok { color: var(--cor-principal); }
+button:hover {
+    background-color: var(--sage-green);
+    color: var(--pure-white);
+    box-shadow: 0 6px 16px rgba(36, 75, 60, 0.18);
+}
 
-/* Cards: o navegador decide quantas colunas cabem */
+button:active {
+    transform: translateY(1px);
+}
+
+#mensagem, #msg-login, #msg-cadastro, #msg-consulta, #msg-vacina {
+    min-height: 1.35rem;
+    margin: 0.7rem 0 0;
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+.erro { color: var(--danger); }
+.ok { color: var(--forest-green); }
+
+/* ---------- Grid e Cards de Animais ---------- */
 .grade {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+    gap: 1.1rem;
 }
 
 .card {
-    background: #fff;
-    border: 1px solid var(--cor-borda);
-    border-radius: 12px;
-    padding: 1rem;
-}
-.card h3 { margin: 0 0 0.25rem; }
-.card p { margin: 0; color: #55645f; }
-
-/* Tablet e computador: formulário ao lado da lista */
-@media (min-width: 768px) {
-    .container {
-        grid-template-columns: 320px 1fr;
-        align-items: start;
-    }
-    button { width: auto; padding: 0.75rem 1.5rem; }
-}
-/* ---------- Página do animal ---------- */
-.card {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.95rem;
+    background-color: var(--pure-white);
+    border: 1px solid var(--soft-mint);
+    border-radius: var(--radius-lg);
+    padding: 1.3rem;
     color: inherit;
     text-decoration: none;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
-.card:hover { border-color: var(--cor-principal); }
-.card:focus-visible { outline: 3px solid #f2b705; }
 
-.voltar {
+.card:hover {
+    transform: translateY(-3px);
+    border-color: var(--sage-green);
+    box-shadow: var(--shadow-card);
+}
+
+.card-topo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.pet-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background-color: var(--pale-sage);
+    border: 1px solid var(--soft-mint);
+    display: grid;
+    place-items: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 1.08rem;
+    font-weight: 700;
+}
+
+.card p {
+    margin: 0.15rem 0 0;
+    font-size: 0.84rem;
+    color: var(--muted-gray);
+}
+
+.card-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--pale-sage);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--forest-green);
+}
+
+.card-selo {
+    background-color: var(--soft-clay);
+    color: var(--deep-moss);
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+/* ---------- Tela de Login ---------- */
+.login-hero {
+    text-align: center;
+    max-width: 580px;
+    margin: 2.25rem auto 0.5rem;
+    padding: 0 1.25rem;
+}
+
+.login-hero-logo {
+    height: 68px;
+    width: auto;
+    object-fit: contain;
+    margin: 0 auto 0.65rem;
+    display: block;
+}
+
+.login-tagline {
     display: inline-block;
-    margin-bottom: 1rem;
-    color: var(--cor-principal);
-    font-weight: 600;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--sage-green);
+    background-color: var(--pale-sage);
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    margin-bottom: 0.5rem;
 }
 
-.painel { margin-bottom: 1rem; }
+.login-hero p {
+    margin: 0.25rem 0 0;
+    color: var(--muted-gray);
+    font-size: 0.95rem;
+}
+
+.container-login {
+    max-width: 900px;
+    padding-top: 1.25rem;
+}
+
+.painel-destaque {
+    border-top: 4px solid var(--forest-green);
+}
+
+/* ---------- Página do Animal e Timeline ---------- */
+.voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+    padding: 0.45rem 0.9rem;
+    background-color: var(--pure-white);
+    border: 1px solid var(--soft-mint);
+    border-radius: 999px;
+    color: var(--forest-green);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.voltar:hover {
+    background-color: var(--pale-sage);
+    border-color: var(--sage-green);
+}
+
+.acoes-historico {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--pale-sage);
+}
+
+.filtro-box {
+    flex: 1;
+    min-width: 175px;
+}
+
+.filtro-box label {
+    margin-top: 0;
+}
+
+#btn-pdf {
+    width: auto;
+    margin-top: 0;
+    background-color: var(--pale-sage);
+    color: var(--forest-green);
+    border: 1px solid var(--soft-mint);
+}
+
+#btn-pdf:hover {
+    background-color: var(--soft-mint);
+    box-shadow: none;
+}
+
+.btn-perigo {
+    width: auto;
+    margin-top: 0;
+    background-color: var(--danger-soft);
+    color: var(--danger);
+    border: 1px solid #E7B5AF;
+}
+
+.btn-perigo:hover {
+    background-color: var(--danger);
+    color: var(--pure-white);
+    border-color: var(--danger);
+    box-shadow: none;
+}
 
 .timeline {
     list-style: none;
     padding: 0;
-    margin: 1rem 0 0;
-    border-left: 3px solid var(--cor-principal);
+    margin: 0.5rem 0 0 0.5rem;
+    border-left: 2px solid var(--soft-mint);
 }
 
 .evento {
     position: relative;
-    background: #fff;
-    border: 1px solid var(--cor-borda);
-    border-radius: 12px;
-    padding: 0.75rem 1rem;
-    margin: 0 0 1rem 1rem;
+    background-color: var(--warm-cream);
+    border: 1px solid var(--soft-mint);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.2rem;
+    margin: 0 0 1rem 1.25rem;
 }
+
 .evento::before {
     content: "";
     position: absolute;
-    left: -1.6rem;
-    top: 1rem;
+    left: -1.69rem;
+    top: 1.2rem;
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: var(--cor-principal);
+    background-color: var(--sage-green);
+    border: 3px solid var(--pure-white);
+    box-shadow: 0 0 0 2px var(--forest-green);
 }
-.evento h3 { margin: 0.25rem 0; }
-.evento p { margin: 0; color: #55645f; }
-.evento time { margin-left: 0.5rem; font-size: 0.9rem; color: #55645f; }
+
+.evento h3 {
+    margin: 0.45rem 0 0.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.evento p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--deep-moss);
+}
+
+.evento time {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted-gray);
+}
 
 .etiqueta {
     display: inline-block;
-    padding: 0.1rem 0.6rem;
+    padding: 0.2rem 0.7rem;
     border-radius: 999px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: #fff;
 }
-.etiqueta.consulta { background: #2f6fa7; }
-.etiqueta.vacina { background: #8a5a00; }
 
-/* ---------- Exportar PDF ---------- */
+.etiqueta.consulta {
+    background-color: var(--pale-sage);
+    color: var(--forest-green);
+}
+
+.etiqueta.vacina {
+    background-color: var(--soft-yellow);
+    color: var(--deep-moss);
+}
+
+/* ---------- Responsividade Desktop ---------- */
+@media (min-width: 820px) {
+    .container {
+        grid-template-columns: 380px 1fr;
+        align-items: start;
+    }
+
+    .container-login {
+        grid-template-columns: 1fr 1fr;
+        align-items: stretch;
+    }
+}
+
+/* ---------- Exportar PDF (Impressão Limpa) ---------- */
 .so-impressao { display: none; }
-#btn-pdf { margin-bottom: 0.5rem; }
-.nota-pdf { font-size: 0.85rem; color: #55645f; }
+.nota-pdf { font-size: 0.85rem; color: var(--muted-gray); }
 
 @media print {
-    .nao-imprimir { display: none !important; }
+    .nao-imprimir, .usuario-logado { display: none !important; }
     .so-impressao { display: block; }
 
     body { background: #fff; color: #000; }
     .topo {
+        position: static;
         background: none;
-        color: #000;
+        border-bottom: 2px solid #244B3C;
         padding: 0 0 0.5rem;
-        border-bottom: 2px solid #000;
     }
-    .container { display: block; padding: 0; }
+    .container { display: block; padding: 1rem 0 0; }
+    .painel { border: none; box-shadow: none; padding: 0; }
 
-    .timeline { border-left: 2px solid #000; }
-    .evento { break-inside: avoid; border-color: #000; }
-    .evento::before { background: #000; }
+    .timeline { border-left: 2px solid #244B3C; }
+    .evento { break-inside: avoid; background: #fff; border-color: #244B3C; }
+    .evento::before { background: #244B3C; box-shadow: none; }
     .etiqueta {
         background: none !important;
         color: #000;
-        border: 1px solid #000;
+        border: 1px solid #244B3C;
     }
 }
-/* ---------- Login ---------- */
-.container-login { max-width: 800px; }
-
-@media (min-width: 768px) {
-    .container-login { grid-template-columns: 1fr 1fr; }
-}
-
-.topo .btn-sair {
+.marca-logo-completa {
+    height: 38px;
     width: auto;
-    margin: 0 0 0 0.5rem;
-    padding: 0.25rem 0.75rem;
-    background: transparent;
-    border: 1px solid #fff;
+    object-fit: contain;
+    display: block;
+}
+.login-hero-logo {
+    height: 72px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    margin: 0 auto 0.65rem;
+    display: block;
+}
+.login-hero-logo {
+    width: auto;
+    max-width: 360px;
+    height: auto;
+    max-height: 130px;
+    object-fit: contain;
+    margin: 0 auto 0.75rem;
+    display: block;
 }
 
+.marca-logo-completa {
+    width: auto;
+    max-width: 210px;
+    height: auto;
+    max-height: 48px;
+    object-fit: contain;
+    display: block;
+}
+/* Fundo orgânico com profundidade sutil */
+body {
+    background:
+            radial-gradient(circle at 8% 12%, rgba(187, 211, 188, 0.42), transparent 40%),
+            radial-gradient(circle at 92% 16%, rgba(217, 185, 167, 0.34), transparent 38%),
+            radial-gradient(circle at 50% 95%, rgba(111, 155, 131, 0.14), transparent 45%),
+            var(--warm-cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Header com vidro fosco e linha inferior refinada */
+.topo {
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(187, 211, 188, 0.75);
+    box-shadow: 0 6px 24px rgba(36, 75, 60, 0.05);
+}
+
+/* Animação elegante de entrada */
+@keyframes entradaElegante {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.painel,
+.card,
+.evento {
+    animation: entradaElegante 0.35s ease both;
+}
+
+/* Detalhe decorativo orgânico nos painéis usando icone-pata.png */
+.painel {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(36, 75, 60, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.painel::after {
+    content: "";
+    position: absolute;
+    right: -18px;
+    bottom: -18px;
+    width: 84px;
+    height: 84px;
+    background: url("../img/icone-pata.png") no-repeat center / contain;
+    opacity: 0.06;
+    pointer-events: none;
+    transform: rotate(-14deg);
+}
+
+/* Destaque superior nos painéis principais */
+.painel-destaque::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--forest-green), var(--sage-green), var(--soft-clay));
+}
+
+/* Foto / Banner opcional na tela de login */
+.login-banner {
+    margin-top: 1.15rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--soft-mint);
+    box-shadow: 0 10px 24px rgba(36, 75, 60, 0.08);
+    max-height: 210px;
+}
+
+.login-banner img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Foto natural no card do pet com fallback suave */
+.card-foto-box {
+    position: relative;
+    width: 100%;
+    height: 128px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--pale-sage);
+    border: 1px solid var(--soft-mint);
+}
+
+.card-foto-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+}
+
+.card:hover .card-foto-box img {
+    transform: scale(1.04);
+}
+
+.card-foto-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    background: linear-gradient(135deg, var(--pale-sage), var(--warm-cream));
+}
+
+.card-foto-fallback img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    opacity: 0.85;
+}
+
+/* Botões com brilho sutil no hover */
+button {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(36, 75, 60, 0.14);
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(36, 75, 60, 0.2);
+}
+
+/* Ocultar efeitos decorativos na impressão do PDF */
 @media print {
-    .usuario-logado { display: none; }
+    .painel::after,
+    .painel-destaque::before,
+    .login-banner {
+        display: none !important;
+    }
 }
-/* Botão de exclusão (perigoso) */
-.btn-perigo {
-    background: #b00020;
-    margin-top: 0.5rem;
+/* Layout editorial da tela de Login */
+.login-layout {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
 }
-.btn-perigo:hover {
-    background: #8a0018;
+
+.login-vitrine {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.login-hero-logo {
+    width: auto;
+    max-width: 260px;
+    height: auto;
+    max-height: 92px;
+    object-fit: contain;
+    display: block;
+}
+
+.login-tagline {
+    display: inline-block;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--forest-green);
+    background-color: var(--pale-sage);
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+}
+
+.login-boas-vindas {
+    margin: 0.15rem 0 0.35rem;
+    color: var(--muted-gray);
+    font-size: 0.92rem;
+    max-width: 380px;
+}
+
+.login-foto-card {
+    margin: 0.25rem 0 0;
+    width: 100%;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--soft-mint);
+    background-color: var(--warm-cream);
+}
+
+.login-foto-card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.login-foto-card figcaption {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--deep-moss);
+    background-color: var(--pale-sage);
+}
+
+.login-formularios {
+    display: grid;
+    gap: 1.25rem;
+}
+
+@media (min-width: 860px) {
+    .login-layout {
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 1.75rem;
+        padding-top: 2.5rem;
+    }
+
+    .login-vitrine {
+        position: sticky;
+        top: 2rem;
+    }
+}
+/* Remove a linha verde torta antiga */
+.painel-destaque {
+    border-top: 1px solid var(--soft-mint);
+}
+.painel-destaque::before {
+    display: none !important;
+}
+
+/* ---------- Novo Login Editorial ---------- */
+.pagina-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1.5rem;
+}
+
+.auth-wrapper {
+    width: 100%;
+    max-width: 980px;
+}
+
+.auth-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: var(--pure-white);
+    border-radius: 26px;
+    border: 1px solid var(--soft-mint);
+    box-shadow: 0 24px 60px rgba(36, 75, 60, 0.12);
+    overflow: hidden;
+    animation: entradaElegante 0.4s ease both;
+}
+
+@media (min-width: 820px) {
+    .auth-card {
+        grid-template-columns: 1.05fr 0.95fr;
+        min-height: 580px;
+    }
+}
+
+/* Lado Esquerdo: Foto Imersiva */
+.auth-media {
+    position: relative;
+    min-height: 260px;
+    background-color: var(--forest-green);
+}
+
+.auth-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.auth-media-overlay {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(
+            to top,
+            rgba(24, 52, 41, 0.92) 0%,
+            rgba(36, 75, 60, 0.45) 55%,
+            rgba(36, 75, 60, 0.1) 100%
+    );
+    color: var(--pure-white);
+}
+
+.auth-badge {
+    align-self: flex-start;
+    background-color: rgba(243, 241, 232, 0.95);
+    color: var(--forest-green);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 0.32rem 0.8rem;
+    border-radius: 999px;
+    margin-bottom: 0.85rem;
+}
+
+.auth-media-overlay h2 {
+    color: var(--pure-white);
+    font-size: 1.35rem;
+    line-height: 1.3;
+    margin: 0 0 0.45rem;
+}
+
+.auth-media-overlay p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--pale-sage);
+    line-height: 1.5;
+}
+
+/* Lado Direito: Área do Formulário */
+.auth-form-area {
+    padding: 2.25rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.auth-form-area::after {
+    content: "";
+    position: absolute;
+    right: -15px;
+    bottom: -15px;
+    width: 90px;
+    height: 90px;
+    background: url("../img/icone-pata.png") no-repeat center / contain;
+    opacity: 0.05;
+    pointer-events: none;
+    transform: rotate(-15deg);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 1.35rem;
+}
+
+.auth-logo {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+    margin: 0 auto 0.4rem;
+    display: block;
+}
+
+.auth-boas-vindas {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--muted-gray);
+    font-weight: 500;
+}
+
+/* Abas Segmented Control */
+.auth-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: var(--warm-cream);
+    padding: 0.3rem;
+    border-radius: 14px;
+    border: 1px solid var(--soft-mint);
+    margin-bottom: 1.15rem;
+}
+
+.auth-tab {
+    margin: 0;
+    padding: 0.55rem 0.75rem;
+    background: transparent;
+    color: var(--muted-gray);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+.auth-tab:hover {
+    background: transparent;
+    color: var(--forest-green);
+    transform: none;
+    box-shadow: none;
+}
+
+.auth-tab.ativo {
+    background-color: var(--pure-white);
+    color: var(--forest-green);
+    box-shadow: 0 2px 8px rgba(36, 75, 60, 0.08);
+}
+
+/* Alternância suave dos formulários */
+.auth-form {
+    display: none;
+}
+
+.auth-form.ativo {
+    display: block;
+    animation: entradaElegante 0.25s ease both;
+}
+
+.btn-principal {
+    margin-top: 1.4rem;
+    padding: 0.85rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+}
+/* Fundo mais rico e orgânico apenas na tela de login */
+.pagina-login {
+    position: relative;
+    overflow-x: hidden;
+    background:
+            radial-gradient(circle at 12% 18%, rgba(111, 155, 131, 0.24), transparent 36%),
+            radial-gradient(circle at 88% 82%, rgba(217, 185, 167, 0.30), transparent 38%),
+            radial-gradient(circle at 82% 14%, rgba(187, 211, 188, 0.32), transparent 34%),
+            #F3F1E8;
+}
+
+/* Camada decorativa suave com o ícone de patinha sem atrapalhar cliques */
+.pagina-login::before {
+    content: "";
+    position: fixed;
+    inset: -40px;
+    background-image: url("../img/icone-pata.png");
+    background-repeat: repeat;
+    background-size: 96px 96px;
+    opacity: 0.035;
+    transform: rotate(-12deg);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Formas orgânicas suaves nos cantos do fundo */
+.pagina-login::after {
+    content: "";
+    position: fixed;
+    width: 340px;
+    height: 340px;
+    left: -90px;
+    bottom: -90px;
+    border-radius: 46% 54% 62% 38% / 44% 39% 61% 56%;
+    background: linear-gradient(135deg, rgba(36, 75, 60, 0.09), rgba(111, 155, 131, 0.14));
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Garante que o card fique sempre acima do fundo decorativo */
+.auth-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+/* Sombra mais profunda para destacar o card sobre o fundo texturizado */
+.auth-card {
+    box-shadow:
+            0 28px 70px rgba(36, 75, 60, 0.16),
+            0 4px 16px rgba(36, 75, 60, 0.06);
+}
+/* Aumenta o retângulo principal para preencher melhor a tela */
+.auth-wrapper {
+    width: 92%;
+    max-width: 1240px;
+}
+
+@media (min-width: 820px) {
+    .auth-card {
+        grid-template-columns: 1.12fr 0.88fr;
+        min-height: 680px;
+    }
+}
+
+.auth-media-overlay {
+    padding: 2.75rem;
+}
+
+.auth-media-overlay h2 {
+    font-size: 1.65rem;
+    max-width: 460px;
+}
+
+.auth-media-overlay p {
+    font-size: 0.98rem;
+    max-width: 420px;
+}
+
+.auth-form-area {
+    padding: 3rem 3.5rem;
+}
+
+.auth-logo {
+    height: 62px;
+    margin-bottom: 0.55rem;
 }

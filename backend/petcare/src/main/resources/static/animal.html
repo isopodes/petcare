@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PetCare+ | Animal</title>
+    <title>PetCare+ | Prontuário do Pet</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="topo">
-    <h1>🐾 PetCare+</h1>
-    <p id="resumo-animal">Carregando...</p>
-    <p class="usuario-logado">
-        <span id="nome-usuario"></span>
-        <button type="button" id="btn-sair">Sair</button>
-    </p>
+    <div class="topo-inner">
+        <a class="marca" href="index.html">
+            <img class="marca-logo-completa" src="img/logo-completa.png" alt="PetCare+">
+            <span class="marca-divisor" aria-hidden="true"></span>
+            <p class="marca-subtitulo" id="resumo-animal">Carregando...</p>
+        </a>
+
+        <p class="usuario-logado">
+            <span id="nome-usuario"></span>
+            <button type="button" id="btn-sair">Sair</button>
+        </p>
+    </div>
 </header>
 
 <main class="container">
@@ -23,17 +29,22 @@
         <section class="painel">
             <h2>Nova consulta</h2>
             <form id="form-consulta">
-                <label for="c-profissional">Profissional</label>
-                <input id="c-profissional" maxlength="150">
-
-                <label for="c-clinica">Clínica</label>
-                <input id="c-clinica" maxlength="150">
+                <div class="form-grid-2">
+                    <div>
+                        <label for="c-profissional">Veterinário(a)</label>
+                        <input id="c-profissional" placeholder="Dr(a). Nome" maxlength="150">
+                    </div>
+                    <div>
+                        <label for="c-clinica">Clínica</label>
+                        <input id="c-clinica" placeholder="Nome da clínica" maxlength="150">
+                    </div>
+                </div>
 
                 <label for="c-data">Data e hora</label>
                 <input id="c-data" type="datetime-local" required>
 
-                <label for="c-motivo">Motivo</label>
-                <textarea id="c-motivo" rows="2" maxlength="2000"></textarea>
+                <label for="c-motivo">Motivo e anotações</label>
+                <textarea id="c-motivo" rows="2" placeholder="Check-up, retorno, sintomas..." maxlength="2000"></textarea>
 
                 <button type="submit">Registrar consulta</button>
                 <p id="msg-consulta" role="status"></p>
@@ -44,16 +55,21 @@
             <h2>Nova vacina</h2>
             <form id="form-vacina">
                 <label for="v-nome">Nome da vacina</label>
-                <input id="v-nome" required maxlength="100">
+                <input id="v-nome" placeholder="Ex.: V10, Antirrábica..." required maxlength="100">
 
-                <label for="v-aplicacao">Data de aplicação</label>
-                <input id="v-aplicacao" type="date" required>
-
-                <label for="v-proxima">Próxima data (reforço)</label>
-                <input id="v-proxima" type="date">
+                <div class="form-grid-2">
+                    <div>
+                        <label for="v-aplicacao">Data de aplicação</label>
+                        <input id="v-aplicacao" type="date" required>
+                    </div>
+                    <div>
+                        <label for="v-proxima">Próximo reforço</label>
+                        <input id="v-proxima" type="date">
+                    </div>
+                </div>
 
                 <label for="v-obs">Observações</label>
-                <textarea id="v-obs" rows="2" maxlength="2000"></textarea>
+                <textarea id="v-obs" rows="2" placeholder="Lote, fabricante, reações..." maxlength="2000"></textarea>
 
                 <button type="submit">Registrar vacina</button>
                 <p id="msg-vacina" role="status"></p>
@@ -61,21 +77,24 @@
         </section>
     </div>
 
-    <section>
-        <h2>Histórico</h2>
+    <section class="painel">
+        <h2>Histórico clínico</h2>
+        <p class="descricao-secao">Todas as informações reunidas em um só lugar.</p>
 
         <div id="ficha" class="so-impressao"></div>
 
-        <div class="nao-imprimir">
-            <label for="filtro">Filtrar por tipo</label>
-            <select id="filtro">
-                <option value="">Todos</option>
-                <option value="CONSULTA">Consultas</option>
-                <option value="VACINA">Vacinas</option>
-            </select>
+        <div class="nao-imprimir acoes-historico">
+            <div class="filtro-box">
+                <label for="filtro">Filtrar eventos</label>
+                <select id="filtro">
+                    <option value="">Todos os registros</option>
+                    <option value="CONSULTA">Apenas Consultas</option>
+                    <option value="VACINA">Apenas Vacinas</option>
+                </select>
+            </div>
 
             <button type="button" id="btn-pdf">📄 Exportar PDF</button>
-            <button type="button" id="btn-excluir" class="btn-perigo">🗑️ Excluir animal</button>
+            <button type="button" id="btn-excluir" class="btn-perigo">Excluir animal</button>
         </div>
 
         <ol id="timeline" class="timeline"></ol>

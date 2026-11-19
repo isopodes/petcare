@@ -76,7 +76,7 @@ form.addEventListener("submit", async (evento) => {
         if (!resp.ok) throw new Error("Erro no servidor");
 
         form.reset();
-        avisar("Animal cadastrado!", "ok");
+        avisar("Informação salva com sucesso!", "ok");
         carregarAnimais();
     } catch (erro) {
         avisar("Erro ao cadastrar. Tente novamente.", "erro");
@@ -84,3 +84,18 @@ form.addEventListener("submit", async (evento) => {
 });
 
 carregarAnimais();
+function criarBlocoImagemCard() {
+    const box = document.createElement("div");
+    box.className = "card-foto-box";
+
+    const fallback = document.createElement("div");
+    fallback.className = "card-foto-fallback";
+
+    const pata = document.createElement("img");
+    pata.src = "img/icone-pata.png";
+    pata.alt = "Ícone PetCare+";
+
+    fallback.append(pata);
+    box.append(fallback);
+    return box;
+}
